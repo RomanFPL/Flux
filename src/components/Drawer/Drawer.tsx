@@ -1,10 +1,8 @@
 "use client";
-import logo from "@/assets/svg/logo.svg";
 import { NavigationItem } from "@/components";
 import { LogoutIcon } from "@/icons";
 import { Box, Collapse, Divider } from "@mui/material";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import React, { useState } from "react";
 import { StyledBox, StyledDrawer, StyledList } from "./Drawer.styled";
 import { DrawerProps } from "./Drawer.types";
@@ -42,9 +40,7 @@ const Drawer = ({ version, selectedItem, navItems }: DrawerProps) => {
 
     return (
         <StyledDrawer variant="permanent" anchor="left">
-            <StyledBox>
-                <Image priority src={logo} alt="Camtek" />
-            </StyledBox>
+            <StyledBox />
             <StyledList>
                 {navItems.map(item => (
                     <Box key={item.name} onClick={e => handleClick(e, item.name)}>
