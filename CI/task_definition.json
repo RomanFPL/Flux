@@ -1,0 +1,26 @@
+{
+    "family": "SFM_Task_Definition",
+    "networkMode": "awsvpc",
+    "taskRoleArn": "arn:aws:iam::576484145184:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::576484145184:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "name": "SFM_container",
+            "image": "576484145184.dkr.ecr.us-east-1.amazonaws.com/sfm:1.0.0",
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
+        }
+    ],
+    "requiresCompatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+}

@@ -1,0 +1,51 @@
+{
+  "root": true,
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:testing-library/react",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "testing-library",
+    "prettier" 
+  ],
+  "rules": {
+    "prettier/prettier": ["error", {
+      "endOfLine": "auto",
+      "semi": true,
+      "singleQuote": false,
+      "useTabs": false,
+      "tabWidth": 4,
+      "printWidth": 120,
+      "bracketSpacing": true,
+      "arrowParens": "avoid",
+      "trailingComma": "none"
+    }],
+    "unicode-bom": "off",
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "no-unused-vars": ["error", { "args": "none" }],
+    "no-debugger": 1,
+    "no-console": 0,
+    "no-empty": 1,
+    "linebreak-style": 0,
+    "indent": ["warn", 4, { "SwitchCase": 1, "ignoredNodes": ["ConditionalExpression"] }],
+    "object-curly-spacing": ["error", "always"],
+    "import/extensions": 0,
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/prop-types": 0,
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+  <header className={[String]}>
+  <Image
+    className={[String]}
+    src={[String]}
+    alt="SkySoftSolutions Logo"
+    width={180}
+    height={37}
+    priority
+  />
+</header>
+<main className={[String]}>
+  <h1>This Page is under construction</h1>
+</main>
+`;

@@ -1,0 +1,69 @@
+pipeline {
+    agent {
+        label 'Ubuntu_Docker_Agent_31-5-24'
+    }
+    
+    options {
+        skipDefaultCheckout()
+        timestamps()
+    }
+    
+    stages {
+        stage('Delete Workspace') {
+            steps {
+                script {
+                    deleteDir()
+                }
+            }
+        }
+        
+        stage('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: 'develop']],
+                extensions: [lfs(), submodule(parentCredentials: true, recursiveSubmodules: true, reference: '')],
+                gitTool: 'Ubuntu_18_04',
+                userRemoteConfigs: [[credentialsId: 'BitbucketAppPass', url: 'https://bitbucket.org/citeskysoft/camtek-sfm.git']])
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh '''
+                    python3 CI/UpdateDeployYaml.py CI/task_definition_develop.json SFM-Develop-Service
+
+                '''
+            }
+        }
+    }
+    
+    post {
+        always {
+            script {
+                def buildStatus = currentBuild.result == 'SUCCESS' ? 'SUCCESSFUL' : 'FAILED'
+                bitbucketStatusNotify(buildState: buildStatus)
+                
+            }
+        }
+        
+        failure {
+            script {
+                emailext body: "Project: SFM-dashboard_main_Linux \n\n" +
+                    "Build Status: ${currentBuild.currentResult}\n\n" +
+                    "Job URL: ${env.BUILD_URL}\n\n\n\n\n\n\n",
+                recipientProviders: [upstreamDevelopers(), buildUser()],
+                subject: 'SFM-dashboard_main_Linux failed!'
+            }
+        }
+        
+        success {
+            script {
+                emailext body: "Project: SFM-dashboard_main_Linux \n\n" +
+                    "Build Status: ${currentBuild.currentResult}\n\n" +
+                    "Version number: ${env.VERSION_NUMBER}\n\n" +
+                    "Job URL: ${env.BUILD_URL}\n\n\n\n\n\n\n",
+                recipientProviders: [upstreamDevelopers(), buildUser()],
+                subject: 'SFM-dashboard_main_Linux succeeded!'
+            }
+        }
+    }
+}
