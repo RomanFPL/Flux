@@ -48,15 +48,15 @@ const WarningsWidget = ({ toolId }: WarningsWidgetProps) => {
     const { reset } = useInitWarnings({ toolId, visible: visible ?? true, maximize: maximize ?? false });
 
     const onSubmitForm = (data: WarningsFormData) => {
-        const severities = data.maximize ? data.selectedSeverities : (defaultWidgetTool?.selectedSeverities ?? []);
-        const dateRange = data.maximize ? data.selectedDateRange : (defaultWidgetTool?.selectedDateRange ?? ["", ""]);
+        const severities = data.maximize ? data.selectedSeverities : defaultWidgetTool?.selectedSeverities ?? [];
+        const dateRange = data.maximize ? data.selectedDateRange : defaultWidgetTool?.selectedDateRange ?? ["", ""];
         dispatch(updateWarningVisibility({ id: toolId, visible: data.visible }));
         dispatch(updateWarningMaximize({ id: toolId, maximize: data.maximize }));
         dispatch(updateWarningSelectedSeverities({ id: toolId, severities: severities }));
         if (JSON.stringify(dateRange) !== JSON.stringify(selectedDateRange)) {
             dispatch(updateWarningSelectedDateRange({ id: toolId, range: dateRange }));
             const isMaximizedChange = JSON.stringify(data.maximize) !== JSON.stringify(maximize);
-            const dateType = isMaximizedChange ? (defaultWidgetTool?.selectedDateType ?? null) : null;
+            const dateType = isMaximizedChange ? defaultWidgetTool?.selectedDateType ?? null : null;
             dispatch(updateWarningSelectedDateType({ id: toolId, type: dateType }));
         }
     };
